@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetroArcade 90s - Hub de Juegos Clásicos</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Supabase Client para guardar puntuaciones en la nube -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="scanlines"></div>
+    
+    <header class="retro-header">
+        <h1 class="glitch-title" data-text="RETRO ARCADE '90">RETRO ARCADE '90</h1>
+        <p class="subtitle">¡Sube tus ROMs, juega al instante y compite en el ranking mundial!</p>
+        
+        <div class="header-actions">
+            <button id="btn-upload-modal" class="retro-btn">📂 Subir ROM / Juego</button>
+            <button id="btn-ranking" class="retro-btn secondary">🏆 Ver Ranking Global</button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Vista de Catálogo de Juegos -->
+        <section id="catalog-section">
+            <h2>CATÁLOGO CLÁSICO (10 JUEGOS)</h2>
+            <div id="games-grid" class="games-grid">
+                <!-- Se llenará dinámicamente con JS -->
+            </div>
+        </section>
+
+        <!-- Vista del emulador y controles (Oculto por defecto) -->
+        <section id="emulator-section" class="hidden">
+            <button id="btn-back" class="retro-btn">⬅ Volver al Catálogo</button>
+            <h2 id="current-game-title">Jugando: Nombre del Juego</h2>
+            
+            <div class="arcade-cabinet">
+                <div class="screen-container">
+                    <!-- Aquí se renderiza el emulador o lienzo del juego -->
+                    <div id="emulator-screen">
+                        <div class="placeholder-game">
+                            <p>🎮 Cargando motor de juego...</p>
+                            <div class="arcade-animation">INSERT COIN</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controles en pantalla para Dispositivos Móviles -->
+                <div class="mobile-controls" id="mobile-controls">
+                    <div class="dpad">
+                        <button class="d-btn" id="btn-up">⬆</button>
+                        <div class="dpad-middle">
+                            <button class="d-btn" id="btn-left">⬅</button>
+                            <button class="d-btn" id="btn-right">➡</button>
+                        </div>
+                        <button class="d-btn" id="btn-down">⬇</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="action-btn" id="btn-b">B</button>
+                        <button class="action-btn" id="btn-a">A</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección para enviar puntuación a la base de datos -->
+            <div class="score-submission">
+                <h3>Tu Puntuación Actual: <span id="current-score">0</span></h3>
+                <input type="text" id="player-name" placeholder="Tu Nombre / Apodo" maxlength="15">
+                <button id="btn-submit-score" class="retro-btn">💾 Guardar Score en la Nube</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal para Subir ROMs -->
+    <div id="upload-modal" class="modal hidden">
+        <div class="modal-content retro-box">
+            <span class="close-modal">&times;</span>
+            <h2>SUBIR NUEVO JUEGO (ROM)</h2>
+            <p>Sube archivos .nes, .smc, .gb o .zip para generar un link único.</p>
+            <input type="text" id="upload-title" placeholder="Título del Juego">
+            <input type="file" id="upload-file" accept=".nes,.smc,.gb,.zip">
+            <button id="btn-upload-rom" class="retro-btn">Generar Link Compartible</button>
+            <div id="upload-result" class="hidden">
+                <p>¡Enlace generado con éxito!</p>
+                <input type="text" id="shareable-link" readonly>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Ranking -->
+    <div id="ranking-modal" class="modal hidden">
+        <div class="modal-content retro-box">
+            <span class="close-modal ranking-close">&times;</span>
+            <h2>🏆 RANKING MUNDIAL</h2>
+            <ul id="ranking-list">
+                <li>Cargando puntuaciones desde Supabase...</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
